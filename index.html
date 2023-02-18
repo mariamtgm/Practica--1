@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Socket.IO chat</title>
+  <style>
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      display: flex;
+    }
+
+    form {
+      background: rgba(0, 0, 0, 0.15);
+      padding: 0.25rem;
+      display: flex;
+      height: 3rem;
+      box-sizing: border-box;
+      backdrop-filter: blur(10px);
+    }
+
+    input {
+      border: none;
+      padding: 0 1rem;
+      flex-grow: 1;
+      border-radius: 2rem;
+      margin: 0.25rem;
+    }
+
+    input:focus {
+      outline: none;
+    }
+
+    form>button {
+      background: #333;
+      border: none;
+      padding: 0 1rem;
+      margin: 0.25rem;
+      border-radius: 3px;
+      outline: none;
+      color: #fff;
+    }
+
+    #messages {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      height: 90vh;
+      overflow: auto;
+    }
+
+    #messages>li {
+      padding: 0.5rem 1rem;
+    }
+
+    #messages>li.right {
+      background: #efefef;
+      text-align: right;
+    }
+
+    .chat {
+      display: flex;
+      flex-direction: column;
+      width: 80%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .contacts {
+      display: flex;
+      flex-direction: column;
+      width: 20%;
+      height: 100vh;
+    }
+
+    .contacts h2 {
+      height: 5vh;
+      padding: 1rem;
+    }
+
+    .contact-list > li {
+      padding: 1.3rem;
+    }
+
+    .selected-contact {
+      height: 5vh;
+    }
+
+    .contact-list {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      height: 90vh;
+      overflow: auto;
+    }
+
+    #add-contact-form {
+      height: 5vh;
+    }
+  </style>
+</head>
+
+<body>
+  <section class="contacts">
+    <h2>Contacts</h2>
+    <ul id="contact-list" class="contact-list">
+      <li>Laura García<hr /></li>
+      <li>María Martín-Toledano<hr /></li>
+      <li>Alejandro Castellano<hr /></li>
+      <li>Elsa Gordillo<hr /></li>
+      <li>Javier Cubillo<hr /></li>
+      <li>Bruno Urban<hr /></li>
+      <li>Ramón García<hr /></li>
+      
+    </ul>
+    <form id="add-contact-form" action="">
+      <input id="input" autocomplete="off" /> <button>Add</button>
+    </form>
+
+  </section>
+  <section class="chat">
+    <section class="selected-contact">
+      <h3><strong>Ramón García</strong></h2>
+    </section>
+    <ul id="messages">
+      <li>Hola</li>
+      <li class="right">Hola!</li>
+    </ul>
+    <form id="form" action="">
+      <input id="input" autocomplete="off" /> <button>Send</button>
+    </form>
+  </section>
+
+  <script>
+    var messages = document.getElementById('messages');
+    var contactList = document.getElementById('contact-list');
+    var form = document.getElementById('form');
+    var input = document.getElementById('input');
+    var addContactForm = document.getElementById('add-contact-form');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      addMessage(input.value);
+    });
+
+    addContactForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      addContact(input.value);
+    });
+
+    function getRandomArbitrary(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+    function addMessage(msg) {
+      var item = document.createElement('li');
+
+      const randomNumber = getRandomArbitrary(1, 10);
+
+      if (randomNumber >= 5) {
+        item.className = 'right';
+      }
+
+      item.textContent = msg;
+      messages.appendChild(item);
+      window.scrollTo(0, document.body.scrollHeight);
+    };
+
+    function addContact(contact) {
+      var item = document.createElement('li');
+      var separator = document.createElement('hr')
+      
+      item.textContent = contact;
+      item.appendChild(separator);
+      contactList.appendChild(item);
+      window.scrollTo(0, document.body.scrollHeight);
+    };
+
+  </script>
+</body>
+
+</html>
